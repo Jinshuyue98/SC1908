@@ -1,0 +1,17 @@
+Package: SC19083
+Type: Package
+Title: Final homework for 'Statistical Computing' course
+Version: 1.0
+Date: 2020-01-03
+Author: Shuyue Jin
+Maintainer: Shuyue Jin <jean@mail.ustc.edu.cn>
+Description: Two R functions are included: one is Equity_after_shock and the other one is CI_BCa_Bootstrap.All my homworks are also included. 
+License: GPL (>= 2)
+Imports: Rcpp (>= 0.12.16), systemicrisk, knitr, rmarkdown,stats,bootstrap
+LinkingTo: Rcpp
+Encoding: UTF-8
+RoxygenNote: 7.0.2
+Suggests: knitr,rmarkdown
+VignetteBuilder: knitr
+URL: http://github.com/Jinshuyue98/SC19083/SC19083
+BugReports: http://github.com/Jinshuyue98/SC19083/SC19083/issues
