@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="By 19083" />
+
+
+<title>Introduction to SC19083</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to SC19083</h1>
+<h4 class="author">By 19083</h4>
+<h4 class="date">2020/1/1</h4>
+
+
+
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>The <strong>SC19083</strong> package contains three functions and all homeworks. The three functions are <em>Equity_after_shock</em>, <em>CI_BCa_Bootstrap</em> and <em>Metropolis</em>. <em>Equity_after_shock</em> is used to calculate the residual equity of banking system after a certain external shock using R. <em>CI_BCa_Bootstrap</em> is used to calculate the BCa confidence interval through bootstrap method using R. <em>Metropolis</em> is A random walk Metropolis sampler for generating the standard Laplace distribution using Rcpp.</p>
+</div>
+<div id="equity_after_shock" class="section level2">
+<h2><em>Equity_after_shock</em></h2>
+<p>The source R code for <em>Equity_after_shock</em> is as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">Equity_after_shock &lt;-<span class="st"> </span><span class="cf">function</span>(Epreall,Aall,Lall,Aball,Lball,p,k,a,b,beta,R){</a>
+<a class="sourceLine" id="cb1-2" title="2"> <span class="co"># Epreall the equity before the shock</span></a>
+<a class="sourceLine" id="cb1-3" title="3"> <span class="co"># Aall total assets</span></a>
+<a class="sourceLine" id="cb1-4" title="4"> <span class="co"># Lall total liabilities</span></a>
+<a class="sourceLine" id="cb1-5" title="5"> <span class="co"># Aball inter-bank assets</span></a>
+<a class="sourceLine" id="cb1-6" title="6"> <span class="co"># Lball inter-bank liabilities</span></a>
+<a class="sourceLine" id="cb1-7" title="7"> <span class="co"># p probability of inter-bank liabilities</span></a>
+<a class="sourceLine" id="cb1-8" title="8"> <span class="co"># k parameter modelling the capital cushion</span></a>
+<a class="sourceLine" id="cb1-9" title="9"> <span class="co"># a,b determining the shape of the cdf of the Beta distribution</span></a>
+<a class="sourceLine" id="cb1-10" title="10"> <span class="co"># beta parameter modelling the actual exogenous recovery rate</span></a>
+<a class="sourceLine" id="cb1-11" title="11"> <span class="co"># R parameter modelling the perceived exogenous recovery rate </span></a>
+<a class="sourceLine" id="cb1-12" title="12"></a>
+<a class="sourceLine" id="cb1-13" title="13">  col &lt;-<span class="st"> </span><span class="kw">ncol</span>(Aall)</a>
+<a class="sourceLine" id="cb1-14" title="14">  row &lt;-<span class="st"> </span><span class="kw">nrow</span>(Aall)</a>
+<a class="sourceLine" id="cb1-15" title="15">  Eeall&lt;-<span class="kw">matrix</span>(<span class="dt">data=</span><span class="ot">NA</span>, <span class="dt">nrow =</span> row, <span class="dt">ncol =</span> col)</a>
+<a class="sourceLine" id="cb1-16" title="16">  <span class="cf">for</span> (h <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>col){</a>
+<a class="sourceLine" id="cb1-17" title="17">    Epre&lt;-Epreall[,h]</a>
+<a class="sourceLine" id="cb1-18" title="18">    Ee&lt;-Epre</a>
+<a class="sourceLine" id="cb1-19" title="19">    A&lt;-Aall[,h]</a>
+<a class="sourceLine" id="cb1-20" title="20">    L&lt;-Lall[,h]</a>
+<a class="sourceLine" id="cb1-21" title="21">    Ab&lt;-Aball[,h]</a>
+<a class="sourceLine" id="cb1-22" title="22">    Lb&lt;-Lball[,h]</a>
+<a class="sourceLine" id="cb1-23" title="23">    Ae&lt;-A<span class="op">-</span>Ab</a>
+<a class="sourceLine" id="cb1-24" title="24">    x&lt;-<span class="fl">0.05</span><span class="op">*</span>Ae</a>
+<a class="sourceLine" id="cb1-25" title="25">    Absum&lt;-<span class="kw">sum</span>(Ab[])</a>
+<a class="sourceLine" id="cb1-26" title="26">    lamda&lt;-p<span class="op">*</span>col<span class="op">*</span>(col<span class="dv">-1</span>)<span class="op">/</span>Absum</a>
+<a class="sourceLine" id="cb1-27" title="27">    nsamples&lt;-<span class="dv">5</span></a>
+<a class="sourceLine" id="cb1-28" title="28">    s&lt;-<span class="kw">sample_ERE</span>(Lb, Ab, p, lamda, nsamples, <span class="dt">thin =</span> <span class="dv">5000</span>, <span class="dt">burnin =</span> <span class="dv">10000</span>)</a>
+<a class="sourceLine" id="cb1-29" title="29">    ssum&lt;-s[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb1-30" title="30">    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>nsamples) {ssum&lt;-ssum<span class="op">+</span>s[[i]]}</a>
+<a class="sourceLine" id="cb1-31" title="31">    Lij&lt;-ssum<span class="op">/</span>nsamples</a>
+<a class="sourceLine" id="cb1-32" title="32">    g&lt;-<span class="dv">1</span></a>
+<a class="sourceLine" id="cb1-33" title="33">    <span class="cf">for</span> (g <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">1000</span>){</a>
+<a class="sourceLine" id="cb1-34" title="34">      ab&lt;-<span class="kw">numeric</span>(row)</a>
+<a class="sourceLine" id="cb1-35" title="35">      i&lt;-<span class="dv">1</span></a>
+<a class="sourceLine" id="cb1-36" title="36">      j&lt;-<span class="dv">1</span></a>
+<a class="sourceLine" id="cb1-37" title="37">      <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>row) {</a>
+<a class="sourceLine" id="cb1-38" title="38">        <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>row) {</a>
+<a class="sourceLine" id="cb1-39" title="39">          y&lt;-(Ee[j]<span class="op">+</span>L[j])<span class="op">/</span>L[j]</a>
+<a class="sourceLine" id="cb1-40" title="40">          <span class="cf">if</span> (y<span class="op">&gt;=</span><span class="dv">1</span><span class="op">+</span>k) ab[i]&lt;-ab[i]<span class="op">+</span>Lij[j,i]</a>
+<a class="sourceLine" id="cb1-41" title="41">          <span class="cf">if</span> (y<span class="op">&gt;=</span><span class="dv">1</span><span class="op">&amp;&amp;</span>y<span class="op">&lt;</span><span class="dv">1</span><span class="op">+</span>k) {</a>
+<a class="sourceLine" id="cb1-42" title="42">            F&lt;-<span class="kw">pbeta</span>((<span class="dv">1</span><span class="op">+</span>k<span class="op">-</span>y)<span class="op">/</span>k,a,b)</a>
+<a class="sourceLine" id="cb1-43" title="43">            ab[i]&lt;-ab[i]<span class="op">+</span>Lij[j,i]<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>(<span class="dv">1</span><span class="op">-</span>R)<span class="op">*</span>F)}</a>
+<a class="sourceLine" id="cb1-44" title="44">          <span class="cf">if</span> (y<span class="op">&gt;=</span><span class="dv">0</span><span class="op">&amp;&amp;</span>y<span class="op">&lt;</span><span class="dv">1</span>) ab[i]&lt;-ab[i]<span class="op">+</span>Lij[j,i]<span class="op">*</span>beta<span class="op">*</span>y</a>
+<a class="sourceLine" id="cb1-45" title="45">          <span class="cf">if</span> (y<span class="op">&lt;</span><span class="dv">0</span>) ab[i]&lt;-ab[i]</a>
+<a class="sourceLine" id="cb1-46" title="46">        }</a>
+<a class="sourceLine" id="cb1-47" title="47">        Ee[i]&lt;-Ae[i]<span class="op">-</span>x[i]<span class="op">+</span>ab[i]<span class="op">-</span>L[i]</a>
+<a class="sourceLine" id="cb1-48" title="48">      }</a>
+<a class="sourceLine" id="cb1-49" title="49">    }</a>
+<a class="sourceLine" id="cb1-50" title="50">    Eeall[,h]&lt;-Ee</a>
+<a class="sourceLine" id="cb1-51" title="51">  }</a>
+<a class="sourceLine" id="cb1-52" title="52">  <span class="kw">return</span>(Eeall)</a>
+<a class="sourceLine" id="cb1-53" title="53">   <span class="co"># a equity matrix of the banking network after the shock</span></a>
+<a class="sourceLine" id="cb1-54" title="54">}</a></code></pre></div>
+<p>The above code can calculate the residual owner’s equity of the banking network after the shock. We use the method in “A Bayesian Methodology for Systemic Risk Assessment in Financial Networks” to calculate the interbank debt matrix(function <em>sample_ERE</em> in R packges <em>systemicrisk</em>). We use the method in “Distress and default contagion in financial networks” to calculate the equity matrix after the external shock.</p>
+<p><em>sample_ERE</em>:Samples from the Erdos Reny model with Exponential weights and known marginals. Runs a Gibbs sampler to do this. The out put of this function is a List of simulation results. <em>Lamda</em> is related to interbank liabilities.</p>
+<p>Definition 2.4 (Equity re-evaluation). We refer to any function <span class="math inline">\(\mathrm{V}: \mathbb{R} \rightarrow[0,1]\)</span> that is nondecreasing and right-continuous as an admissible valuation function. 2. Let <span class="math inline">\(\left(L, L^{e}, A^{e}\right)\)</span> be a financial system and let the shock vector <span class="math inline">\(x\)</span> satisfy <span class="math inline">\(x \in\left[0, A^{(e)}\right]\)</span> Let <span class="math inline">\(\mathbb{V}\)</span> be an admissible valuation function and <span class="math inline">\(\mathcal{E}(x)=[-\bar{L}, w-x]\)</span> and <span class="math inline">\(\mathcal{M}:=\{j \in\)</span> <span class="math inline">\(\left.\mathcal{N} | \bar{L}_{j}&gt;0\right\} .\)</span> We refer to a function <span class="math inline">\(\Phi=\Phi(\cdot ; \mathbf{V}): \mathcal{E}(x) \rightarrow \mathcal{E}(x),\)</span> where for <span class="math inline">\(i \in \mathcal{N}\)</span> <span class="math display">\[
+\Phi_{i}(E)=\Phi_{i}(E ; \mathrm{V})=A_{i}^{e}-x_{i}+\sum_{i \in \mathcal{H}} L_{j i} \mathrm{V}\left(\frac{E_{j}+\bar{L}_{j}}{\bar{L}_{i}}\right)-\bar{L}_{i}
+\]</span> 3. Let <span class="math inline">\(\Phi\)</span> be an equity valuation function for a financial system <span class="math inline">\(\left(L, L^{e}, A^{e}\right)\)</span> with shock vector <span class="math inline">\(x \in\left[0, A^{(e)}\right] .\)</span> We refer to a vector <span class="math inline">\(E \in \mathcal{E}(x)\)</span> satisfying <span class="math display">\[
+E=\Phi(E)
+\]</span> as re-evaluated equity.</p>
+<p>Proposition 3.1. Let <span class="math inline">\(k \geq 0, R, \beta \in[0,1]\)</span> with <span class="math inline">\(R \leq \beta, a&gt;0, b&gt;0\)</span> and let V’litress: <span class="math inline">\(\mathbb{R} \rightarrow[0,1]\)</span> be given by <span class="math display">\[
+\begin{aligned}
+\mathrm{V}^{\text {Ditress }}(y) &amp;=\mathrm{V}^{\text {Distress }}(y ; k, \beta, R, a, b) \\
+&amp;=\mathbb{I}_{\{y \geq 1+k\}}+\mathbb{I}_{\{y&lt;1+k} r(y) \\
+&amp;=\left\{\begin{array}{cc}
+{1-\left(\frac{1+k-y}{k} ; a, b\right),} &amp; {\text { if } 1 \leq y&lt;1+k} \\
+{\beta y,} &amp; {\text { if } 0 \leq y&lt;1} \\
+{0,} &amp; {\text { if } y&lt;0}
+\end{array}\right.
+\end{aligned}
+\]</span> Then V’istress is an admissible valuation function.</p>
+<p>We use balance sheet data from six Chinese banks from 2008 to 2018 to test our function. The R code is as follows.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">A2018&lt;-<span class="kw">c</span>(<span class="dv">2769954000</span>,<span class="dv">2322269300</span>,<span class="dv">2126727500</span>,<span class="dv">2260947100</span>,<span class="dv">953117100</span>,<span class="dv">674572900</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2">L2018&lt;-<span class="kw">c</span>(<span class="dv">2535465700</span>,<span class="dv">2123109900</span>,<span class="dv">1954187800</span>,<span class="dv">2093468400</span>,<span class="dv">882586300</span>,<span class="dv">620212400</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3">Epre2018&lt;-<span class="kw">c</span>(<span class="dv">234488300</span>,<span class="dv">199159400</span>,<span class="dv">172539700</span>,<span class="dv">167478700</span>,<span class="dv">70530800</span>,<span class="dv">54360500</span>)</a>
+<a class="sourceLine" id="cb2-4" title="4">Ab2018&lt;-<span class="kw">c</span>(<span class="dv">57780300</span>,<span class="dv">34972700</span>,<span class="dv">78176100</span>,<span class="dv">55201300</span>,<span class="dv">56477800</span>,<span class="dv">31341100</span>)</a>
+<a class="sourceLine" id="cb2-5" title="5">Lb2018&lt;-<span class="kw">c</span>(<span class="dv">70461833</span>,<span class="dv">60893785</span>,<span class="dv">47421310</span>,<span class="dv">47173804</span>,<span class="dv">58444388</span>,<span class="dv">29554180</span>)</a>
+<a class="sourceLine" id="cb2-6" title="6">A2017&lt;-<span class="kw">c</span>(<span class="dv">2608704300</span>,<span class="dv">2212438300</span>,<span class="dv">1946742400</span>,<span class="dv">2105338200</span>,<span class="dv">903825400</span>,<span class="dv">629763800</span>)</a>
+<a class="sourceLine" id="cb2-7" title="7">L2017&lt;-<span class="kw">c</span>(<span class="dv">2394598700</span>,<span class="dv">2032855600</span>,<span class="dv">1789074500</span>,<span class="dv">1962398500</span>,<span class="dv">836198300</span>,<span class="dv">581424600</span>)</a>
+<a class="sourceLine" id="cb2-8" title="8">Epre2017&lt;-<span class="kw">c</span>(<span class="dv">214105600</span>,<span class="dv">179582700</span>,<span class="dv">157667900</span>,<span class="dv">142939700</span>,<span class="dv">67627100</span>,<span class="dv">48339200</span>)</a>
+<a class="sourceLine" id="cb2-9" title="9">Ab2017&lt;-<span class="kw">c</span>(<span class="dv">47753700</span>,<span class="dv">32523300</span>,<span class="dv">48655900</span>,<span class="dv">50526900</span>,<span class="dv">57076600</span>,<span class="dv">15462800</span>)</a>
+<a class="sourceLine" id="cb2-10" title="10">Lb2017&lt;-<span class="kw">c</span>(<span class="dv">58630225</span>,<span class="dv">45721989</span>,<span class="dv">28804785</span>,<span class="dv">33377591</span>,<span class="dv">52960249</span>,<span class="dv">32504361</span>)</a>
+<a class="sourceLine" id="cb2-11" title="11">A2016&lt;-<span class="kw">c</span>(<span class="dv">2413726500</span>,<span class="dv">2096370500</span>,<span class="dv">1814888900</span>,<span class="dv">1957006100</span>,<span class="dv">840316600</span>,<span class="dv">594231100</span>)</a>
+<a class="sourceLine" id="cb2-12" title="12">L2016&lt;-<span class="kw">c</span>(<span class="dv">2215610200</span>,<span class="dv">1937405100</span>,<span class="dv">1666179700</span>,<span class="dv">1824847000</span>,<span class="dv">777075900</span>,<span class="dv">553894900</span>)</a>
+<a class="sourceLine" id="cb2-13" title="13">Epre2016&lt;-<span class="kw">c</span>(<span class="dv">198116300</span>,<span class="dv">158965400</span>,<span class="dv">148709200</span>,<span class="dv">132159100</span>,<span class="dv">63240700</span>,<span class="dv">40336200</span>)</a>
+<a class="sourceLine" id="cb2-14" title="14">Ab2016&lt;-<span class="kw">c</span>(<span class="dv">52741500</span>,<span class="dv">26067000</span>,<span class="dv">48392900</span>,<span class="dv">58094900</span>,<span class="dv">46779100</span>,<span class="dv">20025100</span>)</a>
+<a class="sourceLine" id="cb2-15" title="15">Lb2016&lt;-<span class="kw">c</span>(<span class="dv">65863017</span>,<span class="dv">42478615</span>,<span class="dv">24550718</span>,<span class="dv">39775516</span>,<span class="dv">46656201</span>,<span class="dv">32776433</span>)</a>
+<a class="sourceLine" id="cb2-16" title="16">A2015&lt;-<span class="kw">c</span>(<span class="dv">2220978000</span>,<span class="dv">1834948900</span>,<span class="dv">1681559700</span>,<span class="dv">1779139300</span>,<span class="dv">715536200</span>,<span class="dv">547497800</span>)</a>
+<a class="sourceLine" id="cb2-17" title="17">L2015&lt;-<span class="kw">c</span>(<span class="dv">2040926100</span>,<span class="dv">1690440600</span>,<span class="dv">1545799200</span>,<span class="dv">1657950800</span>,<span class="dv">661727000</span>,<span class="dv">511322000</span>)</a>
+<a class="sourceLine" id="cb2-18" title="18">Epre2015&lt;-<span class="kw">c</span>(<span class="dv">180051900</span>,<span class="dv">144508300</span>,<span class="dv">135760500</span>,<span class="dv">121188500</span>,<span class="dv">53809200</span>,<span class="dv">36175800</span>)</a>
+<a class="sourceLine" id="cb2-19" title="19">Ab2015&lt;-<span class="kw">c</span>(<span class="dv">47223400</span>,<span class="dv">31077900</span>,<span class="dv">35021800</span>,<span class="dv">50425200</span>,<span class="dv">35681200</span>,<span class="dv">18569300</span>)</a>
+<a class="sourceLine" id="cb2-20" title="20">Lb2015&lt;-<span class="kw">c</span>(<span class="dv">57837485</span>,<span class="dv">38959978</span>,<span class="dv">32024949</span>,<span class="dv">38239057</span>,<span class="dv">29287800</span>,<span class="dv">21649531</span>)</a>
+<a class="sourceLine" id="cb2-21" title="21">A2014&lt;-<span class="kw">c</span>(<span class="dv">2060995300</span>,<span class="dv">1674413000</span>,<span class="dv">1525138200</span>,<span class="dv">1597415200</span>,<span class="dv">626829900</span>,<span class="dv">473182900</span>)</a>
+<a class="sourceLine" id="cb2-22" title="22">L2014&lt;-<span class="kw">c</span>(<span class="dv">1907264900</span>,<span class="dv">1549176700</span>,<span class="dv">1406795400</span>,<span class="dv">1494153300</span>,<span class="dv">579469400</span>,<span class="dv">441676900</span>)</a>
+<a class="sourceLine" id="cb2-23" title="23">Epre2014&lt;-<span class="kw">c</span>(<span class="dv">153730400</span>,<span class="dv">125236300</span>,<span class="dv">118342800</span>,<span class="dv">103261900</span>,<span class="dv">47360500</span>,<span class="dv">31506000</span>)</a>
+<a class="sourceLine" id="cb2-24" title="24">Ab2014&lt;-<span class="kw">c</span>(<span class="dv">47850300</span>,<span class="dv">24852500</span>,<span class="dv">29911100</span>,<span class="dv">40706200</span>,<span class="dv">17231800</span>,<span class="dv">12408500</span>)</a>
+<a class="sourceLine" id="cb2-25" title="25">Lb2014&lt;-<span class="kw">c</span>(<span class="dv">55175483</span>,<span class="dv">25823315</span>,<span class="dv">24020165</span>,<span class="dv">28696639</span>,<span class="dv">27174942</span>,<span class="dv">12069856</span>)</a>
+<a class="sourceLine" id="cb2-26" title="26">A2013&lt;-<span class="kw">c</span>(<span class="dv">1891775200</span>,<span class="dv">1536321000</span>,<span class="dv">1387429900</span>,<span class="dv">1456210200</span>,<span class="dv">596093700</span>,<span class="dv">401639900</span>)</a>
+<a class="sourceLine" id="cb2-27" title="27">L2013&lt;-<span class="kw">c</span>(<span class="dv">1763928900</span>,<span class="dv">1428888100</span>,<span class="dv">1291282200</span>,<span class="dv">1371756500</span>,<span class="dv">553945300</span>,<span class="dv">375044300</span>)</a>
+<a class="sourceLine" id="cb2-28" title="28">Epre2013&lt;-<span class="kw">c</span>(<span class="dv">127846300</span>,<span class="dv">107432900</span>,<span class="dv">96147700</span>,<span class="dv">84453700</span>,<span class="dv">42148400</span>,<span class="dv">26595600</span>)</a>
+<a class="sourceLine" id="cb2-29" title="29">Ab2013&lt;-<span class="kw">c</span>(<span class="dv">41161800</span>,<span class="dv">15206500</span>,<span class="dv">40200100</span>,<span class="dv">30865500</span>,<span class="dv">19705700</span>,<span class="dv">14804700</span>)</a>
+<a class="sourceLine" id="cb2-30" title="30">Lb2013&lt;-<span class="kw">c</span>(<span class="dv">48795965</span>,<span class="dv">18918097</span>,<span class="dv">32506094</span>,<span class="dv">21156230</span>,<span class="dv">25385098</span>,<span class="dv">15182816</span>)</a>
+<a class="sourceLine" id="cb2-31" title="31">A2012&lt;-<span class="kw">c</span>(<span class="dv">1754221700</span>,<span class="dv">1397282800</span>,<span class="dv">1268061500</span>,<span class="dv">1324434200</span>,<span class="dv">527337900</span>,<span class="dv">340821900</span>)</a>
+<a class="sourceLine" id="cb2-32" title="32">L2012&lt;-<span class="kw">c</span>(<span class="dv">1641375800</span>,<span class="dv">1302321900</span>,<span class="dv">1181907300</span>,<span class="dv">1249298800</span>,<span class="dv">489193200</span>,<span class="dv">320771200</span>)</a>
+<a class="sourceLine" id="cb2-33" title="33">Epre2012&lt;-<span class="kw">c</span>(<span class="dv">112845900</span>,<span class="dv">94960900</span>,<span class="dv">86154200</span>,<span class="dv">75135400</span>,<span class="dv">38144700</span>,<span class="dv">20050700</span>)</a>
+<a class="sourceLine" id="cb2-34" title="34">Ab2012&lt;-<span class="kw">c</span>(<span class="dv">22451300</span>,<span class="dv">12965300</span>,<span class="dv">34925100</span>,<span class="dv">22338000</span>,<span class="dv">15378700</span>,<span class="dv">10342000</span>)</a>
+<a class="sourceLine" id="cb2-35" title="35">Lb2012&lt;-<span class="kw">c</span>(<span class="dv">27821819</span>,<span class="dv">13162776</span>,<span class="dv">26657313</span>,<span class="dv">16387905</span>,<span class="dv">22350645</span>,<span class="dv">12019942</span>)</a>
+<a class="sourceLine" id="cb2-36" title="36">A2011&lt;-<span class="kw">c</span>(<span class="dv">1547686800</span>,<span class="dv">1228183400</span>,<span class="dv">1183006600</span>,<span class="dv">1167757700</span>,<span class="dv">461117700</span>,<span class="dv">279497100</span>)</a>
+<a class="sourceLine" id="cb2-37" title="37">L2011&lt;-<span class="kw">c</span>(<span class="dv">1451904500</span>,<span class="dv">1146517300</span>,<span class="dv">1107417200</span>,<span class="dv">1102778900</span>,<span class="dv">433838900</span>,<span class="dv">262996100</span>)</a>
+<a class="sourceLine" id="cb2-38" title="38">Epre2011&lt;-<span class="kw">c</span>(<span class="dv">95782300</span>,<span class="dv">81666100</span>,<span class="dv">75589400</span>,<span class="dv">64978800</span>,<span class="dv">27278800</span>,<span class="dv">16501000</span>)</a>
+<a class="sourceLine" id="cb2-39" title="39">Ab2011&lt;-<span class="kw">c</span>(<span class="dv">16051600</span>,<span class="dv">10904000</span>,<span class="dv">45466800</span>,<span class="dv">21268000</span>,<span class="dv">14872600</span>,<span class="dv">13138100</span>)</a>
+<a class="sourceLine" id="cb2-40" title="40">Lb2011&lt;-<span class="kw">c</span>(<span class="dv">33765670</span>,<span class="dv">10641493</span>,<span class="dv">31251723</span>,<span class="dv">14727772</span>,<span class="dv">22192429</span>,<span class="dv">9122013</span>)</a>
+<a class="sourceLine" id="cb2-41" title="41">A2010&lt;-<span class="kw">c</span>(<span class="dv">1345862200</span>,<span class="dv">1081031700</span>,<span class="dv">1045986500</span>,<span class="dv">1033740600</span>,<span class="dv">395159300</span>,<span class="dv">240250700</span>)</a>
+<a class="sourceLine" id="cb2-42" title="42">L2010&lt;-<span class="kw">c</span>(<span class="dv">1263696500</span>,<span class="dv">1010941200</span>,<span class="dv">978371500</span>,<span class="dv">979517000</span>,<span class="dv">372793600</span>,<span class="dv">226850100</span>)</a>
+<a class="sourceLine" id="cb2-43" title="43">Epre2010&lt;-<span class="kw">c</span>(<span class="dv">82165700</span>,<span class="dv">70090500</span>,<span class="dv">67615000</span>,<span class="dv">54223600</span>,<span class="dv">22365700</span>,<span class="dv">13400600</span>)</a>
+<a class="sourceLine" id="cb2-44" title="44">Ab2010&lt;-<span class="kw">c</span>(<span class="dv">6491800</span>,<span class="dv">6396200</span>,<span class="dv">13698400</span>,<span class="dv">9537500</span>,<span class="dv">7961000</span>,<span class="dv">5891700</span>)</a>
+<a class="sourceLine" id="cb2-45" title="45">Lb2010&lt;-<span class="kw">c</span>(<span class="dv">11457752</span>,<span class="dv">6044018</span>,<span class="dv">14186825</span>,<span class="dv">5171232</span>,<span class="dv">8960508</span>,<span class="dv">4156265</span>)</a>
+<a class="sourceLine" id="cb2-46" title="46">A2009&lt;-<span class="kw">c</span>(<span class="dv">1178505300</span>,<span class="dv">962335500</span>,<span class="dv">875194300</span>,<span class="dv">888258800</span>,<span class="dv">330913700</span>,<span class="dv">206794100</span>)</a>
+<a class="sourceLine" id="cb2-47" title="47">L2009&lt;-<span class="kw">c</span>(<span class="dv">1110611900</span>,<span class="dv">906433500</span>,<span class="dv">820654900</span>,<span class="dv">853966300</span>,<span class="dv">314471200</span>,<span class="dv">197515800</span>)</a>
+<a class="sourceLine" id="cb2-48" title="48">Epre2009&lt;-<span class="kw">c</span>(<span class="dv">67893400</span>,<span class="dv">55902000</span>,<span class="dv">54539400</span>,<span class="dv">34292500</span>,<span class="dv">16442500</span>,<span class="dv">9278300</span>)</a>
+<a class="sourceLine" id="cb2-49" title="49">Ab2009&lt;-<span class="kw">c</span>(<span class="dv">7790600</span>,<span class="dv">2221700</span>,<span class="dv">13893300</span>,<span class="dv">4943500</span>,<span class="dv">4329700</span>,<span class="dv">6239700</span>)</a>
+<a class="sourceLine" id="cb2-50" title="50">Lb2009&lt;-<span class="kw">c</span>(<span class="dv">7526027</span>,<span class="dv">4062247</span>,<span class="dv">11167556</span>,<span class="dv">2803930</span>,<span class="dv">9135686</span>,<span class="dv">4723054</span>)</a>
+<a class="sourceLine" id="cb2-51" title="51">A2008&lt;-<span class="kw">c</span>(<span class="dv">975765400</span>,<span class="dv">755545200</span>,<span class="dv">695569400</span>,<span class="dv">701435100</span>,<span class="dv">267825500</span>,<span class="dv">157179700</span>)</a>
+<a class="sourceLine" id="cb2-52" title="52">L2008&lt;-<span class="kw">c</span>(<span class="dv">915051600</span>,<span class="dv">708789000</span>,<span class="dv">646179300</span>,<span class="dv">672381000</span>,<span class="dv">253261300</span>,<span class="dv">149201600</span>)</a>
+<a class="sourceLine" id="cb2-53" title="53">Epre2008&lt;-<span class="kw">c</span>(<span class="dv">60713800</span>,<span class="dv">46756200</span>,<span class="dv">49390100</span>,<span class="dv">29054100</span>,<span class="dv">14564200</span>,<span class="dv">7978100</span>)</a>
+<a class="sourceLine" id="cb2-54" title="54">Ab2008&lt;-<span class="kw">c</span>(<span class="dv">12679200</span>,<span class="dv">1683600</span>,<span class="dv">38574800</span>,<span class="dv">4447900</span>,<span class="dv">8953900</span>,<span class="dv">8183600</span>)</a>
+<a class="sourceLine" id="cb2-55" title="55">Lb2008&lt;-<span class="kw">c</span>(<span class="dv">9565698</span>,<span class="dv">7686508</span>,<span class="dv">35243319</span>,<span class="dv">6085835</span>,<span class="dv">9194103</span>,<span class="dv">6747537</span>)</a>
+<a class="sourceLine" id="cb2-56" title="56">Aall&lt;-<span class="kw">cbind</span>(A2008,A2009,A2010,A2011,A2012,A2013,A2014,A2015,A2016,A2017,A2018)</a>
+<a class="sourceLine" id="cb2-57" title="57">Lall&lt;-<span class="kw">cbind</span>(L2008,L2009,L2010,L2011,L2012,L2013,L2014,L2015,L2016,L2017,L2018)</a>
+<a class="sourceLine" id="cb2-58" title="58">Epreall&lt;-<span class="kw">cbind</span>(Epre2008,Epre2009,Epre2010,Epre2011,Epre2012,Epre2013,Epre2014,Epre2015,Epre2016,Epre2017,Epre2018)</a>
+<a class="sourceLine" id="cb2-59" title="59">Aball&lt;-<span class="kw">cbind</span>(Ab2008,Ab2009,Ab2010,Ab2011,Ab2012,Ab2013,Ab2014,Ab2015,Ab2016,Ab2017,Ab2018)</a>
+<a class="sourceLine" id="cb2-60" title="60">Lball&lt;-<span class="kw">cbind</span>(Lb2008,Lb2009,Lb2010,Lb2011,Lb2012,Lb2013,Lb2014,Lb2015,Lb2016,Lb2017,Lb2018)</a>
+<a class="sourceLine" id="cb2-61" title="61"></a>
+<a class="sourceLine" id="cb2-62" title="62"><span class="kw">library</span>(<span class="st">&quot;systemicrisk&quot;</span>)</a></code></pre></div>
+<pre><code>## Warning: 程辑包&#39;systemicrisk&#39;是用R版本3.6.2 来建造的</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">p&lt;-<span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb4-2" title="2">k&lt;-<span class="fl">0.025</span></a>
+<a class="sourceLine" id="cb4-3" title="3">a&lt;-b&lt;-<span class="dv">1</span></a>
+<a class="sourceLine" id="cb4-4" title="4">beta&lt;-<span class="fl">0.2</span></a>
+<a class="sourceLine" id="cb4-5" title="5">R&lt;-<span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="kw">Equity_after_shock</span>(Epreall,Aall,Lall,Aball,Lball,p,k,a,b,beta,R)</a></code></pre></div>
+<pre><code>##          [,1]      [,2]        [,3]     [,4]       [,5]     [,6]     [,7]
+## [1,]  2388055   5009723 12603104.74  7051535 20583269.1 26650911 50689941
+## [2,]  7712098   6438643 12837326.27 12740369 21796950.9 27859004 41681047
+## [3,] -7153073   2645080 10363579.98 -5619628 14809842.7 19179397 42648457
+## [4,] -9325896 -12765842 -1243841.87 -8423403  4503486.0  6929581 24842203
+## [5,] -5534074  -2075704    61011.96 -5370756  8235212.5  8692992 15923636
+## [6,] -6030883  -3803686  -296492.82 -4392651   981919.6  4450950  7853130
+##          [,8]     [,9]    [,10]    [,11]
+## [1,] 69590335 78308582 84944823 98879615
+## [2,] 53348407 54866354 69865929 84794570
+## [3,] 52579848 59346750 62091594 70112130
+## [4,] 33963167 36275947 40199135 57191410
+## [5,] 18211211 21092827 24906254 25698835
+## [6,]  9402769 11159379 17499606 22198910</code></pre>
+</div>
+<div id="ci_bca_bootstrap" class="section level2">
+<h2><em>CI_BCa_Bootstrap</em></h2>
+<p>The source R code for <em>CI_BCa_Bootstrap</em> is as follows:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">CI_BCa_Bootstrap &lt;-<span class="cf">function</span>(x, conf) {</a>
+<a class="sourceLine" id="cb6-2" title="2">  <span class="co"># x the sample</span></a>
+<a class="sourceLine" id="cb6-3" title="3">  <span class="co"># conf confidence level</span></a>
+<a class="sourceLine" id="cb6-4" title="4"></a>
+<a class="sourceLine" id="cb6-5" title="5">  x &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(x)</a>
+<a class="sourceLine" id="cb6-6" title="6">  n &lt;-<span class="st"> </span><span class="kw">nrow</span>(x) </a>
+<a class="sourceLine" id="cb6-7" title="7">  N &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>n</a>
+<a class="sourceLine" id="cb6-8" title="8">  alpha &lt;-<span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="op">-</span>conf, conf))<span class="op">/</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb6-9" title="9">  zalpha &lt;-<span class="st"> </span><span class="kw">qnorm</span>(alpha)</a>
+<a class="sourceLine" id="cb6-10" title="10">  cov.hat&lt;-<span class="kw">cov</span>(x)</a>
+<a class="sourceLine" id="cb6-11" title="11">  lamda.hat&lt;-<span class="kw">eigen</span>(cov.hat)<span class="op">$</span>values</a>
+<a class="sourceLine" id="cb6-12" title="12">  lamda.sum&lt;-<span class="kw">sum</span>(lamda.hat)</a>
+<a class="sourceLine" id="cb6-13" title="13">  th0&lt;-lamda.hat[<span class="dv">1</span>]<span class="op">/</span>lamda.sum</a>
+<a class="sourceLine" id="cb6-14" title="14">  B&lt;-<span class="dv">2000</span></a>
+<a class="sourceLine" id="cb6-15" title="15">  th&lt;-<span class="kw">numeric</span>(B)</a>
+<a class="sourceLine" id="cb6-16" title="16">  <span class="cf">for</span>(b <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>B){</a>
+<a class="sourceLine" id="cb6-17" title="17">    i &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="dt">size =</span> n, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb6-18" title="18">    scor.boot&lt;-scor[i,]</a>
+<a class="sourceLine" id="cb6-19" title="19">    cov.boot&lt;-<span class="kw">cov</span>(scor.boot)</a>
+<a class="sourceLine" id="cb6-20" title="20">    lamda.boot&lt;-<span class="kw">eigen</span>(cov.boot)<span class="op">$</span>values</a>
+<a class="sourceLine" id="cb6-21" title="21">    th[b]&lt;-lamda.boot[<span class="dv">1</span>]<span class="op">/</span><span class="kw">sum</span>(lamda.boot)</a>
+<a class="sourceLine" id="cb6-22" title="22">  }</a>
+<a class="sourceLine" id="cb6-23" title="23">  z0 &lt;-<span class="st"> </span><span class="kw">qnorm</span>(<span class="kw">sum</span>(th <span class="op">&lt;</span><span class="st"> </span>th0) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(th))</a>
+<a class="sourceLine" id="cb6-24" title="24">  scor.jack&lt;-x[<span class="op">-</span><span class="dv">1</span>,]</a>
+<a class="sourceLine" id="cb6-25" title="25">  theta.jack&lt;-<span class="kw">numeric</span>(n)</a>
+<a class="sourceLine" id="cb6-26" title="26">  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n){</a>
+<a class="sourceLine" id="cb6-27" title="27">    scor.jack&lt;-scor[<span class="op">-</span>i,]</a>
+<a class="sourceLine" id="cb6-28" title="28">    cov.jack&lt;-<span class="kw">cov</span>(scor.jack)</a>
+<a class="sourceLine" id="cb6-29" title="29">    lamda.jack&lt;-<span class="kw">eigen</span>(cov.jack)<span class="op">$</span>values</a>
+<a class="sourceLine" id="cb6-30" title="30">    theta.jack[i]&lt;-lamda.jack[<span class="dv">1</span>]<span class="op">/</span><span class="kw">sum</span>(lamda.jack)</a>
+<a class="sourceLine" id="cb6-31" title="31">  }</a>
+<a class="sourceLine" id="cb6-32" title="32">  L &lt;-<span class="st"> </span><span class="kw">mean</span>(theta.jack) <span class="op">-</span><span class="st"> </span>theta.jack</a>
+<a class="sourceLine" id="cb6-33" title="33">  a &lt;-<span class="st"> </span><span class="kw">sum</span>(L<span class="op">^</span><span class="dv">3</span>)<span class="op">/</span>(<span class="dv">6</span> <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(L<span class="op">^</span><span class="dv">2</span>)<span class="op">^</span><span class="fl">1.5</span>)</a>
+<a class="sourceLine" id="cb6-34" title="34">  adj.alpha &lt;-<span class="st"> </span><span class="kw">pnorm</span>(z0 <span class="op">+</span><span class="st"> </span>(z0<span class="op">+</span>zalpha)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>a<span class="op">*</span>(z0<span class="op">+</span>zalpha)))</a>
+<a class="sourceLine" id="cb6-35" title="35">  limits &lt;-<span class="st"> </span><span class="kw">quantile</span>(th, adj.alpha, <span class="dt">type=</span><span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb6-36" title="36">  <span class="kw">return</span>(<span class="kw">list</span>(<span class="st">&quot;est&quot;</span>=th0, <span class="st">&quot;BCa&quot;</span>=limits))</a>
+<a class="sourceLine" id="cb6-37" title="37">    <span class="co"># a list including the sample estimate and BCa confidence interval</span></a>
+<a class="sourceLine" id="cb6-38" title="38">}</a></code></pre></div>
+<p>The above code can estimate BCa confidence interval with Bootstrap using R.</p>
+<p>For the 1 − α confidence interval, two factors are used to adjust the commonly used α / 2 and 1−α / 2 quantiles: a correction of bias and a correction of skewness. z0, skewness or “acceleration” correction is recorded as a. The better Bootstrap confidence interval is often called BCa.</p>
+<p>The 100 (1 − α)% BCa confidence interval is: Calculate first <span class="math inline">\(\alpha_{1}=\Phi\left(\hat{z}_{0}+\frac{\hat{z}_{0}+z_{\alpha / 2}}{1-\hat{a}\left(\hat{z}_{0}+z_{\alpha / 2}\right)}\right)\)</span> <span class="math inline">\(\alpha_{2}=\Phi\left(\hat{z}_{0}+\frac{\hat{z}_{0}+z_{1-\alpha / 2}}{1-\hat{a}\left(\hat{z}_{0}+z_{1-\alpha / 2}\right)}\right)\)</span> <span class="math inline">\(z_{\alpha}=\Phi^{-1}(\alpha)\)</span></p>
+<p>The lower and upper bounds of the BCa interval are α1 and α2 quantile.</p>
+<p><span class="math inline">\(\hat{z}_{0}=\Phi^{-1}\left(\frac{1}{B} \sum_{b=1}^{B} I\left(\hat{\theta}^{(b)}&lt;\hat{\theta}\right)\right)\)</span></p>
+<p>The acceleration factor is estimated from Jackknife iterations: <span class="math inline">\(\hat{a}=\frac{\sum_{i=1}^{n}\left(\bar{\theta}_{(\cdot)}-\theta_{(i)}\right)^{3}}{6 \sum_{i=1}^{n}\left(\left(\overline{\theta_{(\cdot)}}-\theta_{(i)}\right)^{2}\right)^{3 / 2}}\)</span></p>
+<p>We use data <em>scor</em> from R package <em>bootstrap</em> to test our function. The R code is as follows.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">library</span>(<span class="st">&quot;bootstrap&quot;</span>)</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="kw">data</span>(scor,<span class="dt">package=</span><span class="st">&quot;bootstrap&quot;</span>)</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="kw">CI_BCa_Bootstrap</span>(scor,<span class="dt">conf=</span><span class="fl">0.95</span>)</a></code></pre></div>
+<pre><code>## $est
+## [1] 0.619115
+## 
+## $BCa
+## 2.502755% 97.50297% 
+## 0.5195259 0.7089627</code></pre>
+</div>
+<div id="metropolis" class="section level2">
+<h2><em>Metropolis</em></h2>
+<p>The source Rcpp code for <em>Metropolis</em> is as follows:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">NumericVector <span class="kw">Metropolis</span>(double sigma, double x0, int N){</a>
+<a class="sourceLine" id="cb9-2" title="2">  <span class="co">#x0: the initial point</span></a>
+<a class="sourceLine" id="cb9-3" title="3">  <span class="co">#sigma: the standard deviation in the normal distribution</span></a>
+<a class="sourceLine" id="cb9-4" title="4">  <span class="co">#N: the length of the chain</span></a>
+<a class="sourceLine" id="cb9-5" title="5">  NumericVector <span class="kw">x</span>(N);</a>
+<a class="sourceLine" id="cb9-6" title="6">  x[<span class="dv">0</span>]=x0;</a>
+<a class="sourceLine" id="cb9-7" title="7">  <span class="cf">for</span> (int <span class="dt">i=</span><span class="dv">1</span>;i<span class="op">&lt;</span>N;i<span class="op">++</span>) {</a>
+<a class="sourceLine" id="cb9-8" title="8">    double e=<span class="kw">runif</span>(<span class="dv">1</span>)[<span class="dv">0</span>];</a>
+<a class="sourceLine" id="cb9-9" title="9">    double z=<span class="kw">rnorm</span>(<span class="dv">1</span>,x[i<span class="dv">-1</span>],sigma)[<span class="dv">0</span>];</a>
+<a class="sourceLine" id="cb9-10" title="10">    <span class="cf">if</span> (e<span class="op">&lt;=</span><span class="kw">exp</span>(<span class="kw">abs</span>(x[i<span class="dv">-1</span>])<span class="op">-</span><span class="kw">abs</span>(z))) x[i]=z;</a>
+<a class="sourceLine" id="cb9-11" title="11">    <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb9-12" title="12">      x[i]=x[i<span class="dv">-1</span>];</a>
+<a class="sourceLine" id="cb9-13" title="13">    }</a>
+<a class="sourceLine" id="cb9-14" title="14">  }</a>
+<a class="sourceLine" id="cb9-15" title="15">  return x;</a>
+<a class="sourceLine" id="cb9-16" title="16">}</a></code></pre></div>
+<p>example:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">library</span>(SC19083)</a></code></pre></div>
+<pre><code>## 
+## 载入程辑包：&#39;SC19083&#39;</code></pre>
+<pre><code>## The following objects are masked _by_ &#39;.GlobalEnv&#39;:
+## 
+##     CI_BCa_Bootstrap, Equity_after_shock</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">N&lt;-<span class="dv">100</span></a>
+<a class="sourceLine" id="cb13-2" title="2">sigma&lt;-<span class="fl">1.0</span></a>
+<a class="sourceLine" id="cb13-3" title="3">x0&lt;-<span class="fl">0.0</span></a>
+<a class="sourceLine" id="cb13-4" title="4"><span class="kw">Metropolis</span>(sigma,x0,N)</a></code></pre></div>
+<pre><code>##   [1]  0.000000000  0.000000000 -1.235062547 -1.882959267 -0.366948995
+##   [6]  1.068891214  1.912499270  0.762771753 -0.767991569 -0.767991569
+##  [11] -1.865840395 -1.865840395 -1.865840395 -1.865840395 -1.789599193
+##  [16] -1.500400572 -1.500400572 -1.227424187 -1.206910005 -1.206910005
+##  [21] -2.367839650 -2.478985703 -0.735788113 -0.735788113 -0.007447724
+##  [26]  0.851252834  0.521435758  0.840987033  0.840987033  0.076897866
+##  [31]  0.008480235 -0.445548423 -1.074855479 -0.617166638 -0.037701424
+##  [36] -0.096299551 -1.945130441 -0.014183666 -0.269072540 -0.269072540
+##  [41] -0.696272537 -0.669496191  0.348072082 -0.894287635 -1.305084764
+##  [46]  1.317514229  1.890051798  1.890051798  1.591532472  0.692544111
+##  [51]  0.692544111  0.462306074  1.529685205  0.959985938  0.571759312
+##  [56]  1.852739464  1.982698441  1.744257977  2.450187414  2.198989276
+##  [61]  2.523219535  2.291142414  1.668855651  1.867836973  1.250839325
+##  [66]  1.251564571  1.251564571  1.460176465  0.492196286  0.360953833
+##  [71] -0.268021666 -0.268021666 -0.804056829 -0.240467498 -0.240467498
+##  [76] -0.240467498 -0.240467498 -0.240467498 -0.319399210 -0.319399210
+##  [81]  0.446679721  0.649554283  0.571183964  0.571183964  0.571183964
+##  [86]  1.254179882  0.114117444 -0.168800314 -0.168800314  0.404576882
+##  [91]  0.464738188  1.006873523  1.322118747  1.901197402  0.916056860
+##  [96]  0.916056860  0.561862500  0.735046636  0.637658178  1.542770839</code></pre>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

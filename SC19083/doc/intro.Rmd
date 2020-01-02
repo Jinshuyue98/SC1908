@@ -1,0 +1,276 @@
+---
+title: "Introduction to SC19083"
+author: "By 19083"
+date: "2020/1/1"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to SC19083}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Overview
+
+The __SC19083__ package contains three functions and all homeworks. The three functions are _Equity_after_shock_, _CI_BCa_Bootstrap_ and _Metropolis_. _Equity_after_shock_ is used to calculate the residual equity of banking system after a certain external shock using R. _CI_BCa_Bootstrap_ is used to calculate the BCa confidence interval through bootstrap method using R. _Metropolis_ is A random walk Metropolis sampler for generating the standard Laplace distribution using Rcpp. 
+
+## _Equity_after_shock_
+
+The source R code for _Equity_after_shock_ is as follows:
+
+```{r}
+Equity_after_shock <- function(Epreall,Aall,Lall,Aball,Lball,p,k,a,b,beta,R){
+ # Epreall the equity before the shock
+ # Aall total assets
+ # Lall total liabilities
+ # Aball inter-bank assets
+ # Lball inter-bank liabilities
+ # p probability of inter-bank liabilities
+ # k parameter modelling the capital cushion
+ # a,b determining the shape of the cdf of the Beta distribution
+ # beta parameter modelling the actual exogenous recovery rate
+ # R parameter modelling the perceived exogenous recovery rate 
+
+  col <- ncol(Aall)
+  row <- nrow(Aall)
+  Eeall<-matrix(data=NA, nrow = row, ncol = col)
+  for (h in 1:col){
+    Epre<-Epreall[,h]
+    Ee<-Epre
+    A<-Aall[,h]
+    L<-Lall[,h]
+    Ab<-Aball[,h]
+    Lb<-Lball[,h]
+    Ae<-A-Ab
+    x<-0.05*Ae
+    Absum<-sum(Ab[])
+    lamda<-p*col*(col-1)/Absum
+    nsamples<-5
+    s<-sample_ERE(Lb, Ab, p, lamda, nsamples, thin = 5000, burnin = 10000)
+    ssum<-s[[1]]
+    for (i in 2:nsamples) {ssum<-ssum+s[[i]]}
+    Lij<-ssum/nsamples
+    g<-1
+    for (g in 1:1000){
+      ab<-numeric(row)
+      i<-1
+      j<-1
+      for (i in 1:row) {
+        for (j in 1:row) {
+          y<-(Ee[j]+L[j])/L[j]
+          if (y>=1+k) ab[i]<-ab[i]+Lij[j,i]
+          if (y>=1&&y<1+k) {
+            F<-pbeta((1+k-y)/k,a,b)
+            ab[i]<-ab[i]+Lij[j,i]*(1-(1-R)*F)}
+          if (y>=0&&y<1) ab[i]<-ab[i]+Lij[j,i]*beta*y
+          if (y<0) ab[i]<-ab[i]
+        }
+        Ee[i]<-Ae[i]-x[i]+ab[i]-L[i]
+      }
+    }
+    Eeall[,h]<-Ee
+  }
+  return(Eeall)
+   # a equity matrix of the banking network after the shock
+}
+```
+
+The above code can calculate the residual owner's equity of the banking network after the shock. We use the method in "A Bayesian Methodology for Systemic Risk Assessment in Financial Networks" to calculate the interbank debt matrix(function _sample_ERE_ in R packges _systemicrisk_). We use the method in "Distress and default contagion in financial networks" to calculate the equity matrix after the external shock.
+
+_sample_ERE_:Samples from the Erdos Reny model with Exponential weights and known marginals. Runs a Gibbs sampler to do this. The out put of this function is a List of simulation results. _Lamda_ is related to interbank liabilities. 
+
+Definition 2.4 (Equity re-evaluation). We refer to any function $\mathrm{V}: \mathbb{R} \rightarrow[0,1]$ that is nondecreasing and right-continuous as an admissible valuation function.
+2. Let $\left(L, L^{e}, A^{e}\right)$ be a financial system and let the shock vector $x$ satisfy $x \in\left[0, A^{(e)}\right]$ Let $\mathbb{V}$ be an admissible valuation function and $\mathcal{E}(x)=[-\bar{L}, w-x]$ and $\mathcal{M}:=\{j \in$ $\left.\mathcal{N} | \bar{L}_{j}>0\right\} .$ We refer to a function $\Phi=\Phi(\cdot ; \mathbf{V}): \mathcal{E}(x) \rightarrow \mathcal{E}(x),$ where for $i \in \mathcal{N}$
+\[
+\Phi_{i}(E)=\Phi_{i}(E ; \mathrm{V})=A_{i}^{e}-x_{i}+\sum_{i \in \mathcal{H}} L_{j i} \mathrm{V}\left(\frac{E_{j}+\bar{L}_{j}}{\bar{L}_{i}}\right)-\bar{L}_{i}
+\]
+3. Let $\Phi$ be an equity valuation function for a financial system $\left(L, L^{e}, A^{e}\right)$ with shock vector $x \in\left[0, A^{(e)}\right] .$ We refer to a vector $E \in \mathcal{E}(x)$ satisfying
+\[
+E=\Phi(E)
+\]
+as re-evaluated equity.
+
+Proposition 3.1. Let $k \geq 0, R, \beta \in[0,1]$ with $R \leq \beta, a>0, b>0$ and let V'litress:
+$\mathbb{R} \rightarrow[0,1]$ be given by
+\[
+\begin{aligned}
+\mathrm{V}^{\text {Ditress }}(y) &=\mathrm{V}^{\text {Distress }}(y ; k, \beta, R, a, b) \\
+&=\mathbb{I}_{\{y \geq 1+k\}}+\mathbb{I}_{\{y<1+k} r(y) \\
+&=\left\{\begin{array}{cc}
+{1-\left(\frac{1+k-y}{k} ; a, b\right),} & {\text { if } 1 \leq y<1+k} \\
+{\beta y,} & {\text { if } 0 \leq y<1} \\
+{0,} & {\text { if } y<0}
+\end{array}\right.
+\end{aligned}
+\]
+Then V'istress is an admissible valuation function.
+
+We use balance sheet data from six Chinese banks from 2008 to 2018 to test our function. The R code is as follows.
+```{r}
+A2018<-c(2769954000,2322269300,2126727500,2260947100,953117100,674572900)
+L2018<-c(2535465700,2123109900,1954187800,2093468400,882586300,620212400)
+Epre2018<-c(234488300,199159400,172539700,167478700,70530800,54360500)
+Ab2018<-c(57780300,34972700,78176100,55201300,56477800,31341100)
+Lb2018<-c(70461833,60893785,47421310,47173804,58444388,29554180)
+A2017<-c(2608704300,2212438300,1946742400,2105338200,903825400,629763800)
+L2017<-c(2394598700,2032855600,1789074500,1962398500,836198300,581424600)
+Epre2017<-c(214105600,179582700,157667900,142939700,67627100,48339200)
+Ab2017<-c(47753700,32523300,48655900,50526900,57076600,15462800)
+Lb2017<-c(58630225,45721989,28804785,33377591,52960249,32504361)
+A2016<-c(2413726500,2096370500,1814888900,1957006100,840316600,594231100)
+L2016<-c(2215610200,1937405100,1666179700,1824847000,777075900,553894900)
+Epre2016<-c(198116300,158965400,148709200,132159100,63240700,40336200)
+Ab2016<-c(52741500,26067000,48392900,58094900,46779100,20025100)
+Lb2016<-c(65863017,42478615,24550718,39775516,46656201,32776433)
+A2015<-c(2220978000,1834948900,1681559700,1779139300,715536200,547497800)
+L2015<-c(2040926100,1690440600,1545799200,1657950800,661727000,511322000)
+Epre2015<-c(180051900,144508300,135760500,121188500,53809200,36175800)
+Ab2015<-c(47223400,31077900,35021800,50425200,35681200,18569300)
+Lb2015<-c(57837485,38959978,32024949,38239057,29287800,21649531)
+A2014<-c(2060995300,1674413000,1525138200,1597415200,626829900,473182900)
+L2014<-c(1907264900,1549176700,1406795400,1494153300,579469400,441676900)
+Epre2014<-c(153730400,125236300,118342800,103261900,47360500,31506000)
+Ab2014<-c(47850300,24852500,29911100,40706200,17231800,12408500)
+Lb2014<-c(55175483,25823315,24020165,28696639,27174942,12069856)
+A2013<-c(1891775200,1536321000,1387429900,1456210200,596093700,401639900)
+L2013<-c(1763928900,1428888100,1291282200,1371756500,553945300,375044300)
+Epre2013<-c(127846300,107432900,96147700,84453700,42148400,26595600)
+Ab2013<-c(41161800,15206500,40200100,30865500,19705700,14804700)
+Lb2013<-c(48795965,18918097,32506094,21156230,25385098,15182816)
+A2012<-c(1754221700,1397282800,1268061500,1324434200,527337900,340821900)
+L2012<-c(1641375800,1302321900,1181907300,1249298800,489193200,320771200)
+Epre2012<-c(112845900,94960900,86154200,75135400,38144700,20050700)
+Ab2012<-c(22451300,12965300,34925100,22338000,15378700,10342000)
+Lb2012<-c(27821819,13162776,26657313,16387905,22350645,12019942)
+A2011<-c(1547686800,1228183400,1183006600,1167757700,461117700,279497100)
+L2011<-c(1451904500,1146517300,1107417200,1102778900,433838900,262996100)
+Epre2011<-c(95782300,81666100,75589400,64978800,27278800,16501000)
+Ab2011<-c(16051600,10904000,45466800,21268000,14872600,13138100)
+Lb2011<-c(33765670,10641493,31251723,14727772,22192429,9122013)
+A2010<-c(1345862200,1081031700,1045986500,1033740600,395159300,240250700)
+L2010<-c(1263696500,1010941200,978371500,979517000,372793600,226850100)
+Epre2010<-c(82165700,70090500,67615000,54223600,22365700,13400600)
+Ab2010<-c(6491800,6396200,13698400,9537500,7961000,5891700)
+Lb2010<-c(11457752,6044018,14186825,5171232,8960508,4156265)
+A2009<-c(1178505300,962335500,875194300,888258800,330913700,206794100)
+L2009<-c(1110611900,906433500,820654900,853966300,314471200,197515800)
+Epre2009<-c(67893400,55902000,54539400,34292500,16442500,9278300)
+Ab2009<-c(7790600,2221700,13893300,4943500,4329700,6239700)
+Lb2009<-c(7526027,4062247,11167556,2803930,9135686,4723054)
+A2008<-c(975765400,755545200,695569400,701435100,267825500,157179700)
+L2008<-c(915051600,708789000,646179300,672381000,253261300,149201600)
+Epre2008<-c(60713800,46756200,49390100,29054100,14564200,7978100)
+Ab2008<-c(12679200,1683600,38574800,4447900,8953900,8183600)
+Lb2008<-c(9565698,7686508,35243319,6085835,9194103,6747537)
+Aall<-cbind(A2008,A2009,A2010,A2011,A2012,A2013,A2014,A2015,A2016,A2017,A2018)
+Lall<-cbind(L2008,L2009,L2010,L2011,L2012,L2013,L2014,L2015,L2016,L2017,L2018)
+Epreall<-cbind(Epre2008,Epre2009,Epre2010,Epre2011,Epre2012,Epre2013,Epre2014,Epre2015,Epre2016,Epre2017,Epre2018)
+Aball<-cbind(Ab2008,Ab2009,Ab2010,Ab2011,Ab2012,Ab2013,Ab2014,Ab2015,Ab2016,Ab2017,Ab2018)
+Lball<-cbind(Lb2008,Lb2009,Lb2010,Lb2011,Lb2012,Lb2013,Lb2014,Lb2015,Lb2016,Lb2017,Lb2018)
+
+library("systemicrisk")
+p<-0.5
+k<-0.025
+a<-b<-1
+beta<-0.2
+R<-0.5
+Equity_after_shock(Epreall,Aall,Lall,Aball,Lball,p,k,a,b,beta,R)
+```
+
+## _CI_BCa_Bootstrap_
+
+The source R code for _CI_BCa_Bootstrap_ is as follows:
+
+```{r}
+CI_BCa_Bootstrap <-function(x, conf) {
+  # x the sample
+  # conf confidence level
+
+  x <- as.matrix(x)
+  n <- nrow(x) 
+  N <- 1:n
+  alpha <- (1 + c(-conf, conf))/2
+  zalpha <- qnorm(alpha)
+  cov.hat<-cov(x)
+  lamda.hat<-eigen(cov.hat)$values
+  lamda.sum<-sum(lamda.hat)
+  th0<-lamda.hat[1]/lamda.sum
+  B<-2000
+  th<-numeric(B)
+  for(b in 1:B){
+    i <- sample(1:n, size = n, replace = TRUE)
+    scor.boot<-scor[i,]
+    cov.boot<-cov(scor.boot)
+    lamda.boot<-eigen(cov.boot)$values
+    th[b]<-lamda.boot[1]/sum(lamda.boot)
+  }
+  z0 <- qnorm(sum(th < th0) / length(th))
+  scor.jack<-x[-1,]
+  theta.jack<-numeric(n)
+  for(i in 1:n){
+    scor.jack<-scor[-i,]
+    cov.jack<-cov(scor.jack)
+    lamda.jack<-eigen(cov.jack)$values
+    theta.jack[i]<-lamda.jack[1]/sum(lamda.jack)
+  }
+  L <- mean(theta.jack) - theta.jack
+  a <- sum(L^3)/(6 * sum(L^2)^1.5)
+  adj.alpha <- pnorm(z0 + (z0+zalpha)/(1-a*(z0+zalpha)))
+  limits <- quantile(th, adj.alpha, type=6)
+  return(list("est"=th0, "BCa"=limits))
+    # a list including the sample estimate and BCa confidence interval
+}
+```
+
+The above code can estimate BCa confidence interval with Bootstrap using R. 
+
+For the 1 − α confidence interval, two factors are used to adjust the commonly used α / 2 and 1−α / 2 quantiles: a correction of bias and a correction of skewness. z0, skewness or "acceleration" correction is recorded as a. The better Bootstrap confidence interval is often called BCa.
+
+The 100 (1 − α)% BCa confidence interval is: Calculate first
+$\alpha_{1}=\Phi\left(\hat{z}_{0}+\frac{\hat{z}_{0}+z_{\alpha / 2}}{1-\hat{a}\left(\hat{z}_{0}+z_{\alpha / 2}\right)}\right)$
+$\alpha_{2}=\Phi\left(\hat{z}_{0}+\frac{\hat{z}_{0}+z_{1-\alpha / 2}}{1-\hat{a}\left(\hat{z}_{0}+z_{1-\alpha / 2}\right)}\right)$
+$z_{\alpha}=\Phi^{-1}(\alpha)$
+
+The lower and upper bounds of the BCa interval are α1 and α2 quantile.
+
+$\hat{z}_{0}=\Phi^{-1}\left(\frac{1}{B} \sum_{b=1}^{B} I\left(\hat{\theta}^{(b)}<\hat{\theta}\right)\right)$
+
+The acceleration factor is estimated from Jackknife iterations:
+$\hat{a}=\frac{\sum_{i=1}^{n}\left(\bar{\theta}_{(\cdot)}-\theta_{(i)}\right)^{3}}{6 \sum_{i=1}^{n}\left(\left(\overline{\theta_{(\cdot)}}-\theta_{(i)}\right)^{2}\right)^{3 / 2}}$
+
+We use data _scor_ from R package _bootstrap_ to test our function. The R code is as follows.
+```{r}
+library("bootstrap")
+data(scor,package="bootstrap")
+CI_BCa_Bootstrap(scor,conf=0.95)
+```
+
+## _Metropolis_
+
+The source Rcpp code for _Metropolis_ is as follows:
+```{r,eval=FALSE}
+NumericVector Metropolis(double sigma, double x0, int N){
+  #x0: the initial point
+  #sigma: the standard deviation in the normal distribution
+  #N: the length of the chain
+  NumericVector x(N);
+  x[0]=x0;
+  for (int i=1;i<N;i++) {
+    double e=runif(1)[0];
+    double z=rnorm(1,x[i-1],sigma)[0];
+    if (e<=exp(abs(x[i-1])-abs(z))) x[i]=z;
+    else {
+      x[i]=x[i-1];
+    }
+  }
+  return x;
+}
+```
+
+example:
+```{r,eval=TRUE}
+library(SC19083)
+N<-100
+sigma<-1.0
+x0<-0.0
+Metropolis(sigma,x0,N)
+```
